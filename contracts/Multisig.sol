@@ -3,8 +3,8 @@ pragma solidity ^0.8.24;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Multisig {
-    uint8 public quorum; // Minimum number of signatures required to approve a transaction
-    uint8 public noOfValidSigners; // Number of valid signers (owners) of the multisig wallet
+    uint256 public quorum; // Minimum number of signatures required to approve a transaction
+    uint256 public noOfValidSigners; // Number of valid signers (owners) of the multisig wallet
     uint256 public txCount; // Counter for the total number of transactions
 
     // Structure to define a transaction
@@ -27,12 +27,12 @@ contract Multisig {
 
     // Variables for updating quorum and signers
     uint256 public updateQuorumTxId; // Transaction ID for quorum update
-    uint8 public newQuorum; // Proposed new quorum value
+    uint256 public newQuorum; // Proposed new quorum value
     address[] public newValidSigners; // Proposed new list of valid signers
     mapping(uint256 => mapping(address => bool)) public hasApprovedUpdate; // Update txId -> signer -> whether the signer has approved the update
 
     // Constructor to initialize the contract with valid signers and quorum
-    constructor(uint8 _quorum, address[] memory _validSigners) {
+    constructor(uint256 _quorum, address[] memory _validSigners) {
         require(_validSigners.length > 1, "few valid signers"); // Ensure there is more than one valid signer
         require(_quorum > 1, "quorum is too small"); // Ensure quorum is greater than 1
 
@@ -43,7 +43,7 @@ contract Multisig {
             isValidSigner[_validSigners[i]] = true; // Register valid signer
         }
 
-        noOfValidSigners = uint8(_validSigners.length); // Set number of valid signers
+        noOfValidSigners = _validSigners.length; // Set number of valid signers
 
         if (!isValidSigner[msg.sender]) {
             isValidSigner[msg.sender] = true;
@@ -91,7 +91,7 @@ contract Multisig {
         txCount += 1;
     }
 
-    function approveTx(uint8 _txId) external {
+    function approveTx(uint256 _txId) external {
         Transaction storage trx = transactions[_txId];
 
         require(trx.id != 0, "invalid tx id");
@@ -123,7 +123,7 @@ contract Multisig {
     }
 
     function updateQuorum(
-        uint8 _newQuorum,
+        uint256 _newQuorum,
         address[] memory _newValidSigners
     ) public {
         require(isValidSigner[msg.sender], "Not a valid signer");
