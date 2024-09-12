@@ -14,3 +14,5 @@ const MultisigModule = buildModule("MultisigModule", (m) => {
 });
 
 export default MultisigModule;
+
+///npx hardhat ignition deploy ./ignition/modules/OnChainNFT.ts --network sepolia --verify
