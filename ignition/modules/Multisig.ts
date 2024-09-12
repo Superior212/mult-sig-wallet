@@ -8,11 +8,9 @@ const MultisigModule = buildModule("MultisigModule", (m) => {
     "0x29bb5e4702fdB02298BB62B17ad893a89CF6DdbD",
   ];
 
-  const lock = m.contract("Multisig", [quorum, validSigners], {});
+  const Multisig = m.contract("Multisig", [quorum, validSigners], {});
 
-  return { lock };
+  return { Multisig };
 });
 
 export default MultisigModule;
-
-///npx hardhat ignition deploy ./ignition/modules/OnChainNFT.ts --network sepolia --verify
